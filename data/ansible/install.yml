@@ -30,7 +30,7 @@
 - name: configure-gateway
   hosts: gateway
   vars:
-    sync_gateway_config_server: 'http://cb_server:{{ couchbase_server_admin_port }}'
+    sync_gateway_config_server: 'http://vak_couchbase:{{ couchbase_server_admin_port }}'
   roles:
     - role: config_sync_gateway
 

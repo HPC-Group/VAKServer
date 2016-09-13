@@ -9,7 +9,7 @@ node_app_name: node_app
 node_app_restart_policy: always
 
 # image tag
-node_app_image_tag: latest
+node_app_image_tag: 0.0.4
 
 # the image to use
 node_app_image: 'visanalyticskit/vakserver_nodejs:{{ node_app_image_tag }}'

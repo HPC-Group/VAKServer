@@ -9,13 +9,13 @@ vak_common_cache_ttl: 3600
 
 # common packages we want to use
 _common_packages:
-  - git
-  - curl
-  - build-essential
-  - htop
-  - zsh
-  - wget
-  - python-pip
+  - 'git'
+  - 'curl'
+  - 'build-essential'
+  - 'htop'
+  - 'zsh'
+  - 'wget'
+  - 'python-pip'
 
 # open suse
 vak_suse_common_packages: '{{ _common_packages }}'

@@ -41,7 +41,7 @@ couchbase_data_volumes:
 couchbase_server_image_tag: 1.5.0
 
 # which image should be used
-couchbase_server_image: 'visanalyticskit/couchbase-server:{{ couchbase_server_image_tag }}'
+couchbase_server_image: 'visanalyticskit/vakserver_couchbase:{{ couchbase_server_image_tag }}'
 
 # which port is the admin listening to?
 couchbase_server_admin_port: 8091
