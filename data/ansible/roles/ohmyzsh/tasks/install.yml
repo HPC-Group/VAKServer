@@ -1,0 +1,9 @@
+---
+# fetches the oh-my-zsh repository and saves it locally
+# depending on the update param it pulls updates
+
+- name: install > Git repository
+  git:
+    repo:   https://github.com/robbyrussell/oh-my-zsh.git
+    dest:   "{{ vak_ohmyzsh_dir }}"
+    update: "{{ vak_ohmyzsh_update | bool }}"

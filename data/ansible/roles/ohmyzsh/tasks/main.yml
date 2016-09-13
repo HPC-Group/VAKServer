@@ -1,0 +1,16 @@
+---
+
+- include: requirements.yml
+  tags:
+      - oh-my-zsh
+      - ozh-requirements
+
+- include: install.yml
+  tags:
+    - oh-my-zsh
+    - ozh-install
+
+- include: users.yml
+  tags:
+    - oh-my-zsh
+    - ozh-users

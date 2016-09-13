@@ -1,0 +1,11 @@
+---
+# creates the project user and adds her to the defined groups
+
+- name: create user
+  user:
+    name: '{{ project_user }}'
+    groups: '{{ project_user_groups | join(",") }}'
+    state: present
+  tags:
+    - project-setup
+    - user

@@ -1,0 +1,12 @@
+---
+
+# Dir
+
+vak_ohmyzsh_dir: /usr/local/share/oh-my-zsh
+
+# Update
+vak_ohmyzsh_update: false
+
+# Users
+vak_ohmyzsh_users_template: users/base.j2
+vak_ohmyzsh_users:  []

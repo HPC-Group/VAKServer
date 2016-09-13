@@ -1,0 +1,69 @@
+---
+
+# project settings
+#
+# the remote root folder
+couchbase_remote_root: '{{ project_user_home }}'
+
+# this will be the folder name where everything is stored
+couchbase_project_name: cb
+
+# creates the couchbase root folder
+couchbase_project_root: '{{ couchbase_remote_root }}/{{ couchbase_project_name }}'
+
+# creates the data folder: databases are stored here physically to prevent data loss
+_couchbase_project_data_folder:  '{{ couchbase_project_root }}/cb-data'
+
+# array of project folders to be created
+couchbase_project_folders:
+  - '{{ couchbase_project_root }}'
+  - '{{ _couchbase_project_data_folder }}'
+
+# docker compose values
+#
+# docker compose template file
+couchbase_docker_compose_template: '{{ playbook_dir }}/files/docker-compose_couchbase_server.yml.j2'
+# docker-comopose destination folder
+couchbase_docker_compose_dest: '{{ couchbase_project_root }}'
+
+# - data container
+couchbase_data_name: vak_data
+# base image name to extend
+couchbase_data_image: visanalyticskit/vakserver_base:latest
+# volumes to mount
+couchbase_data_volumes:
+  - '{{ _couchbase_project_data_folder }}:/opt/couchbase/var'
+
+
+# - couchbase server container
+#
+# the image tag eg. latest, 1.0.2, dev ...
+couchbase_server_image_tag: 1.5.0
+
+# which image should be used
+couchbase_server_image: 'visanalyticskit/couchbase-server:{{ couchbase_server_image_tag }}'
+
+# which port is the admin listening to?
+couchbase_server_admin_port: 8091
+
+# rest end points
+couchbase_server_rest_port: 8092
+
+# n1ql Port
+couchbase_server_query_services_port: 8093
+
+# client port to connect to
+couchbase_server_client_port: 11210
+
+# name of the couchbase server container
+couchbase_server_name: vak_couchbase
+
+# what should happen if the container dies?
+couchbase_server_restart_policy: always
+
+# port forwarding to the host
+couchbase_server_ports:
+  - '{{ couchbase_server_admin_port }}:{{ couchbase_server_admin_port }}'
+  - '{{ couchbase_server_rest_port }}:{{ couchbase_server_rest_port }}'
+  - '{{ couchbase_server_query_services_port }}:{{ couchbase_server_query_services_port }}'
+  - '{{ couchbase_server_client_port }}:{{ couchbase_server_client_port }}'

@@ -1,0 +1,52 @@
+---
+# {{ ansible_managed }}
+
+# the data container that acts as an adapter to the host system
+data_container:
+  image: {{ couchbase_data_image }}
+  container_name: {{ couchbase_data_name }}
+  volumes:
+  {% for volume in docker_volumes %}
+    - {{ volume }}
+  {% endfor %}
+
+# the actual couchbase server
+couchbase_server:
+  image: {{ couchbase_server_image }}
+  container_name: {{ couchbase_server_name }}
+  volumes_from: [data_container]
+  restart: {{ couchbase_server_restart_policy }}
+  ports:
+  {% for port in couchbase_server_ports %}
+    - {{ port }}
+  {% endfor %}
+
+# the sync gateway
+sync_gateway:
+  image: {{ sync_gateway_image }}
+  container_name: {{ sync_gateway_name }}
+  volumes_from: [data_container]
+  links:
+    - couchbase_server
+  restart: {{ sync_gateway_restart_policy }}
+  ports:
+  {% for port in sync_gateway_ports %}
+    - {{ port }}
+  {% endfor %}
+
+  environment:
+  {% for env_var in sync_gateway_environment %}
+    - {{ env_var }}
+  {% endfor %}
+
+# the vis analytics app server
+node_js:
+  image: {{ node_app_image }}
+  container_name: {{ node_app_name }}
+  links:
+    - couchbase_server
+  restart: {{ node_app_restart_policy }}
+  ports:
+  {% for port in node_app_ports %}
+    - {{ port }}
+  {% endfor %}

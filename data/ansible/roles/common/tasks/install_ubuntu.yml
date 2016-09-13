@@ -1,0 +1,66 @@
+---
+
+- name: "common > Ubuntu > update apt cache"
+  apt: >
+    update_cache=yes
+    cache_valid_time={{ vak_common_cache_ttl }}
+  become: yes
+  become_method: sudo
+  tags:
+    - common-setup
+    - common
+    - packages-install
+
+- name: "common > Ubuntu > install packages"
+  apt: pkg={{ item }}
+  with_items: "{{ vak_ubuntu_common_packages }}"
+  become: yes
+  become_method: sudo
+  tags:
+    - common-setup
+    - common
+    - packages-install
+
+- name: common > ntp | timezone | Make sure tzdata is installed
+  apt:
+    pkg: tzdata
+    state: present
+  tags:
+    - common-setup
+    - common
+    - timezone
+
+# This will always write /etc/localtime
+- name:  common >  ntp | timezone | Update the hardware clock
+  command: dpkg-reconfigure -f noninteractive tzdata
+  changed_when: false
+  tags:
+    - common-setup
+    - common
+    - timezone
+
+# So we always need to delete it
+- name: common > ntp | timezone | Symlink the correct localtime - pt.1
+  file:
+    path: /etc/localtime
+    state: absent
+  changed_when: false
+  tags:
+    - common-setup
+    - common
+    - timezone
+
+# Then re-symlink it to the correct location
+- name: common > ntp | timezone | Symlink the correct localtime - pt.2 (/etc/localtime)
+  file:
+    src: /usr/share/zoneinfo/{{vak_common_timezone}}
+    dest: /etc/localtime
+    state: link
+    owner: root
+    group: root
+    mode: 0644
+  changed_when: false
+  tags:
+    - common-setup
+    - common
+    - timezone

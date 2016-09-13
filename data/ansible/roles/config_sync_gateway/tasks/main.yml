@@ -1,0 +1,22 @@
+---
+# Copies and interpolates a sync_gateway config.json file to a remote destination
+#
+# Description:
+#     A local role to be used in conjunction with a sync_gateway whether it's in a docker container or a local installation
+#
+#
+# Author Andreas Ruck <mychiara@gmail.com>
+# Copyright 2015
+# License MIT
+
+- name: 'config > copy and insert vars into sync_gateway config file'
+  become: yes
+  template:
+    src: '{{ sync_gateway_config_file_template }}'
+    dest: '{{ sync_gateway_project_config_folder }}/{{ sync_gateway_config_remote_name }}'
+    owner: '{{ project_user }}'
+    group: '{{ project_folder_group }}'
+    mode: "0644"
+  tags:
+    - setup-sync_gateway
+    - config-sync_gateway

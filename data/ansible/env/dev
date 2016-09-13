@@ -1,0 +1,15 @@
+# ansible/dev environment
+# defines groups of hosts that can be adressed by playbooks
+
+# the gateway group
+
+[gateway]
+vak.telemetry.dev
+
+# the couchbase-server group
+[db]
+vak.telemetry.dev
+
+# the analytics web app
+[node_app]
+vak.telemetry.dev

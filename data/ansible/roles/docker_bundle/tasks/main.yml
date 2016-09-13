@@ -1,0 +1,20 @@
+---
+
+- include: config.yml
+  tags:
+    - docker
+    - config
+    - docker-config
+
+- include: install.yml
+  tags:
+    - docker
+    - install
+    - docker-install
+    - docker-compose
+
+- include: service.yml
+  tags:
+    - docker
+    - service
+    - docker-service

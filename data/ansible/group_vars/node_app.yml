@@ -1,0 +1,22 @@
+---
+
+# - node app container
+#
+# node app container name
+node_app_name: node_app
+
+# the restart policy if it crashes
+node_app_restart_policy: always
+
+# image tag
+node_app_image_tag: latest
+
+# the image to use
+node_app_image: 'visanalyticskit/vakserver_nodejs:{{ node_app_image_tag }}'
+
+# the public port
+node_app_public_port: 80
+
+# which ports should be forwarded
+node_app_ports:
+  - '{{ node_app_public_port }}:{{ node_app_public_port }}'

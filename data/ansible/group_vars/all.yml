@@ -1,0 +1,34 @@
+---
+# remove and rebuild docker images?
+removeContainer: 'false'
+rebuildImage: 'false'
+
+# the project user and the groups she' s part of
+project_user: students
+project_user_home: '/home/{{ project_user }}'
+project_folder_group: couchbase
+project_user_groups:
+  - '{{ project_folder_group }}'
+  - students
+
+# configures oh my zsh
+# adds plugins to oh my zsh
+_ohmyzsh_plugins:
+  - 'docker'
+  - 'git'
+  - 'docker-compose'
+  - 'common-aliases'
+
+vak_ohmyzsh_users:
+  - user: root
+    theme: robbyrussell
+    plugins: '{{ _ohmyzsh_plugins }}'
+
+  - user:  '{{ project_user }}'
+    theme: robbyrussell
+    plugins: '{{ _ohmyzsh_plugins }}'
+
+# do we want to use oh my zsh?
+vak_use_ohmyzsh: true
+
+docker_compose_version: 1.6.2

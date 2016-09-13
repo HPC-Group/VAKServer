@@ -1,0 +1,54 @@
+---
+#
+# This file is used to install the VAK-StateLogger-Backend  on a single host that runs on >> Ubuntu <<.
+#
+# Description:
+#
+#   Installs some default packages aswell as setting some basic settings like the timezone.
+#   Also installs docker and docker-compose.
+#   To be able to connect the sync_gateway with the couchbase-server we needed to merge the two docker-compose files
+#   (docker-compose_couchbase_server.yml.j2, docker-compose_couchbase_server.yml.j2) found in files, into one bigger docker-compose file
+#
+# Author VisAnalyticsKit
+# Copyright 2015
+# License MIT
+
+# installs basic packages we need
+- name: setup-basic
+  hosts: all
+  become: yes
+  roles:
+      - role: common
+      - role: docker_bundle
+
+      - role: project_setup
+        project_folders: '{{ couchbase_project_folders | union(sync_gateway_project_folders) }}'
+
+      - role: ohmyzsh
+        when: '{{ vak_use_ohmyzsh | bool }}'
+# configures the sync gateway to be used later
+- name: configure-gateway
+  hosts: gateway
+  vars:
+    sync_gateway_config_server: 'http://cb_server:{{ couchbase_server_admin_port }}'
+  roles:
+    - role: config_sync_gateway
+
+- name: configure-and-start-containers
+  hosts: all
+  vars:
+    docker_volumes: '{{ couchbase_data_volumes | union(sync_gateway_data_volumes) }}'
+    docker_compose_dest_and_root: '{{ project_user_home }}'
+  roles:
+      - role: compose_containers
+        docker_compose_src_template: '{{ playbook_dir }}/files/compose/docker-compose_server_gateway.yml.j2'
+        docker_compose_dest: '{{ docker_compose_dest_and_root }}'
+        docker_root: '{{ docker_compose_dest_and_root }}'
+
+# # AWARENESS only local and on OSX
+
+# - name: awareness
+#   hosts: localhost
+#   roles:
+#     - role: terminal_notifier
+

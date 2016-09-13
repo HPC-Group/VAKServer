@@ -1,0 +1,113 @@
+---
+
+# project settings
+#
+# the remote root folder
+sync_gateway_remote_root: '{{ project_user_home }}'
+
+# the project name
+sync_gateway_project_name: sg
+
+# creates the sync gateway's root folder
+sync_gateway_project_root: '{{ sync_gateway_remote_root }}/{{ sync_gateway_project_name }}'
+
+# creates a config folder to be read from
+sync_gateway_project_config_folder:  '{{ sync_gateway_project_root }}/conf'
+
+# creates teh actual folders
+sync_gateway_project_folders:
+  - '{{ sync_gateway_project_root }}'
+  - '{{ sync_gateway_project_config_folder }}'
+
+## configuration values for sync_gateway
+#
+# the sync gateway template file
+sync_gateway_config_file_template:  '{{ playbook_dir }}/files/config-sync_gateway.json.j2'
+
+#  the new name of the config file
+sync_gateway_config_remote_name: my-config.json
+
+#sync_gateway_config_server: 'http://{{ groups['db'] | first }}:{{ couchbase_server_admin_port }}'
+# configuration options
+#
+# the server address
+sync_gateway_config_server: 'http://localhost:{{ couchbase_server_admin_port }}'
+
+# the public interface port
+sync_gateway_config_interface_port: 4984
+
+# the admin interface port
+sync_gateway_config_admin_interface_port: 4985
+
+# what should be logged
+sync_gateway_config_log_operations:
+  - 'Access'
+  - 'Attach'
+  - 'Auth'
+  - 'Cache+'
+  - 'Changes+'
+  - 'CRUD+'
+  - 'DCP'
+  - 'Events+'
+  - 'Feed+'
+  - 'HTTP+'
+
+# should the gateway print pretty json?
+sync_gateway_config_pretty_json: 1
+
+# the bucket to create
+sync_gateway_config_bucket_name: sync_gateway
+
+# the admin user to use
+sync_gateway_config_user: hurley
+
+#the password of said user
+sync_gateway_config_user_pass: secret_password
+
+# disables the guest
+sync_gateway_config_disable_guest: 'false'
+
+###
+
+# docker compose values
+#
+# docker compose template
+sync_gateway_docker_compose_template: '{{ playbook_dir }}/files/docker-compose_couchbase_sync_gateway.yml.j2'
+
+# docker compose file destination
+sync_gateway_docker_compose_dest: '{{ sync_gateway_project_root }}'
+
+# - data container
+#
+# data container name
+sync_gateway_data_name: sg_data
+
+# data container base image
+sync_gateway_data_image: visanalyticskit/vakserver_base:latest
+
+# volumes to mount
+sync_gateway_data_volumes:
+  - '{{ sync_gateway_project_config_folder }}:/opt/couchbase-sync-gateway/conf'
+
+# - sync gateway container
+#
+# sync gateway container name
+sync_gateway_name: sync_gateway
+
+# the restart policy if it crashes
+sync_gateway_restart_policy: always
+
+# image tag
+sync_gateway_image_tag: 1.5.0
+
+# the image to use
+sync_gateway_image: 'visanalyticskit/vakserver_syncgateway:{{ sync_gateway_image_tag }}'
+
+# which ports should be forwarded
+sync_gateway_ports:
+    - '{{ sync_gateway_config_interface_port }}:{{ sync_gateway_config_interface_port }}'
+    - '{{ sync_gateway_config_admin_interface_port }}:{{ sync_gateway_config_admin_interface_port }}'
+
+# some environment variables to be passed along to the container
+sync_gateway_environment:
+  - 'SYNC_CONFIG_FILE=/opt/couchbase-sync-gateway/conf/{{ sync_gateway_config_remote_name }}'

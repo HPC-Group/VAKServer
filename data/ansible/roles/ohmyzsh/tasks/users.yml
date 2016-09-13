@@ -1,0 +1,19 @@
+---
+
+# installs the user settings to the specific folder
+# root is a special case because it has no home dir prefix
+
+- name: users > Templates
+  template:
+    src:   "{{ item.template|default(vak_ohmyzsh_users_template) }}"
+    dest:  "{{ item.home|default('/root' if item.user == 'root' else '/home/' ~ item.user) }}/.zshrc"
+    owner: "{{ item.user }}"
+  with_items: "{{ vak_ohmyzsh_users }}"
+
+# sets zsh as default shell
+
+- name: users > Shells
+  user:
+    name: "{{ item.user }}"
+    shell: "{{ vak_ohmyzsh_zsh_path | default('/bin/zsh') }}"
+  with_items: "{{ vak_ohmyzsh_users }}"

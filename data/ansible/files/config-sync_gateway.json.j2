@@ -1,0 +1,26 @@
+{
+  "//__comment": "{{ ansible_managed }}",
+
+  "interface":":{{ sync_gateway_config_interface_port }}",
+  "adminInterface":":{{ sync_gateway_config_admin_interface_port }}",
+  "log": ["{{ sync_gateway_config_log_operations | join('","') }}"],
+
+  "databases":{
+      "{{ sync_gateway_config_bucket_name }}":{
+          "server": "{{ sync_gateway_config_server }}",
+          "bucket":"{{ sync_gateway_config_bucket_name }}",
+          "users": {
+              "{{ sync_gateway_config_user }}": {
+                "password": "{{ sync_gateway_config_user_pass }}",
+                "all_channels": ["*"],
+                "admin_channels": ["*"]
+              },
+              "GUEST": {
+                "disabled": {{ sync_gateway_config_disable_guest }},
+                "admin_channels": ["*"]
+              }
+            },
+          "sync":"function(doc) {channel(doc.channels);}"
+      }
+   }
+}
