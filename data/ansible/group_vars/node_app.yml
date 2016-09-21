@@ -3,7 +3,7 @@
 # - node app container
 #
 # node app container name
-node_app_name: node_app
+node_app_name: vak_app
 
 # the restart policy if it crashes
 node_app_restart_policy: always
