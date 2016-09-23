@@ -40,7 +40,7 @@ sync_gateway:
   {% endfor %}
 
 # the vis analytics app server
-node_js:
+{# node_js:
   image: {{ node_app_image }}
   container_name: {{ node_app_name }}
   links:
@@ -49,4 +49,4 @@ node_js:
   ports:
   {% for port in node_app_ports %}
     - {{ port }}
-  {% endfor %}
+  {% endfor %} #}

@@ -13,11 +13,11 @@ communicatie with each other.
 
 ## Requirements
 
-This is currently only tested on a  OSX 10.11 host, but should work perfectly fine on any *nix system and should also work on a windows host.
+Tested on OSX 10.11 and macOS 10.12. 
 
 ### Required software
 
-If you are on OSX you probably have [homebrew](http://brew.sh/) installed, if not you are definitely missing out, so be sure to have it ready.
+If you are on OS X / macOS you probably have [homebrew](http://brew.sh/) installed, if not you are definitely missing out, so be sure to have it ready.
 Also to be able to use the local development environment this tool relies on the availabilty of [vagrant](https://docs.vagrantup.com/v2/why-vagrant/index.html) and [virtualbox](https://www.virtualbox.org/) or any other provider that is supported by vagrant. A list of providers can be found in the vagrant [documentation](https://docs.vagrantup.com/v2/providers/index.html).
 
 One can install vagrant, virtualbox and lots of other tools via brew-cask, so be sure to have that installed as well.
@@ -89,14 +89,14 @@ __Starting vagrant__
 # change to the working directory where you cloned or copied this repository
 cd /path/to/this-repository
 
-# add a Ubuntu base box to be exact Trusty x64
+# add an Ubuntu base box (Trusty x64)
 # that might take a while, because you are downloading the image
 vagrant box add ubuntu/trusty64
 
 # optinonal add another base box
 # for example the openSUSE-13.2 image from webhippie
 # again this takes some time
-vagrant box add webhippie/opensuse-13.2
+# vagrant box add webhippie/opensuse-13.2
 
 # you can also set the VAK_PROVIDER environment variable to 'parallels' to use that virtualization provider
 # when the boxes have finished downloading `vagrant up` will start a virtualmachine with ubuntu/trusty64
@@ -126,6 +126,9 @@ cd ./data/ansible
 # if you are ready to provison your machine enter this cmd:
 ansible-playbook install.yml
 
+# the command will take some time to finish, so why not fetch a nice 
+# hot beverage of choice? :)
+
 # for another environment like the staging server call the following command:
 # ansible-playbook install.yml -i env/staging --ask-become-pass
 # you will be prompted to enter a sudo password so, that ansible is able to provision the machine
@@ -137,7 +140,7 @@ When everything went well you can now visit your newly installed couchbase serve
 
 ### Couchbase Server
 
-The default location of the couchbase-server is http://VAK.telemetry.dev:8091
+The default location of the couchbase-server is http://vak.telemetry.dev:8091
 
 To login into the server you need to enter the follwing credentials:
 
@@ -159,7 +162,7 @@ Make sure to select "descending" in the filter results.
 
 ### Sync Gateway
 
-The default location of the sync_gateway is http://VAK.telemetry.dev:4985.
+The default location of the sync_gateway is http://vak.telemetry.dev:4985.
 
 The sync gateway also sets a user and password:
 
@@ -168,3 +171,8 @@ The sync gateway also sets a user and password:
 
 It's also possible to disable the GUEST user by specifing ```sync_gateway_config_disable_guest: "true"```.
 The complete configuration keys and their corresponding values can be scrutinzed [here](http://developer.couchbase.com/documentation/mobile/1.1.0/develop/guides/sync-gateway/configuring-sync-gateway/config-properties/index.html).
+
+### The Visualization Application
+
+To visualize the data we added a simple nodejs app.
+It's available at http://vak.telemetry.dev:3000.

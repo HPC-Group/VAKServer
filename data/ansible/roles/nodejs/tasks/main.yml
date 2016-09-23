@@ -1,0 +1,43 @@
+---
+- name: add nodejs GPG key into apt
+  apt_key:
+    url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
+    id: "68576280"
+    state: present
+
+- name: add nodejs repository
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_{{nodejs_version}} wheezy main"
+    state: present
+
+- name: install nodejs package
+  apt:
+    pkg: nodejs
+    update-cache: yes
+
+- name: install packages
+  npm:
+    path: "{{ node_app_home }}"
+    state: present
+
+- name: install bower
+  npm:
+    name: bower
+    global: yes
+
+- name: "Install forever (to run Node.js app)."
+  npm: name=forever global=yes state=present
+
+- name: install bower packages
+  command: bower update --allow-root
+  args:
+    chdir: "{{ node_app_home }}"
+
+- name: "Check list of Node.js apps running."
+  command: forever list
+  register: forever_list
+  changed_when: false
+
+- name: run app
+  command: forever start "{{ node_app_home }}"/bin/www
+  when: "forever_list.stdout.find('{{ node_app_home }}/bin/www') == -1"

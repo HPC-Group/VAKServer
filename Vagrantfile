@@ -32,7 +32,8 @@ end
 
 # ports that should be forwarded to the host
 ports = [
-  { 'guest' => 8091, 'host' => 8091 },  # server
+  { 'guest' => 3000, 'host' => 3000 }, # application
+  { 'guest' => 8091, 'host' => 8091 },  # couchbase server admin panel
   { 'guest'=> 11210, 'host' => 11210 }, # client
   { 'guest'=> 4984, 'host' => 4984 }, # gateway
   { 'guest' => 4985, 'host' => 4985 } #gateway
@@ -46,12 +47,12 @@ Vagrant.configure(2) do | config |
   authorize_key_for_root config, rsa_key
 
   # disable librarian chef plugin
-  if Vagrant.has_plugin?("vagrant-librarian-chef")
+  if Vagrant.has_plugin?('vagrant-librarian-chef')
     config.librarian_chef.enabled = false
   end
 
- # disables removal of the /etc/hosts  ''vak.telemetry.dev 192.168.34.11' entry on suspend
-  if Vagrant.has_plugin?("vagrant-hostsupdater")
+ # disables removal of the /etc/hosts  'vak.telemetry.dev 192.168.34.11' entry on suspend
+  if Vagrant.has_plugin?('vagrant-hostsupdater')
     config.hostsupdater.remove_on_suspend = false
   end
 
@@ -59,6 +60,7 @@ Vagrant.configure(2) do | config |
   config.vm.hostname = host_name
   config.vm.box = box_type
   config.vm.network 'private_network', ip: ip_address
+  config.vm.synced_folder './shared/app', '/home/vak/app'
 
   # forward given ports: see ports array
   ports.each do | port |
@@ -70,5 +72,4 @@ Vagrant.configure(2) do | config |
     vb.memory = 2048
     vb.cpus = 2
   end
-
 end

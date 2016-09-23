@@ -45,6 +45,12 @@
         docker_compose_dest: '{{ docker_compose_dest_and_root }}'
         docker_root: '{{ docker_compose_dest_and_root }}'
 
+- name: nodejs
+  hosts: node_app
+  roles:
+      - role: nodejs
+
+
 # # AWARENESS only local and on OSX
 
 # - name: awareness

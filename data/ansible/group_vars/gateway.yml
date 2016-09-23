@@ -56,7 +56,7 @@ sync_gateway_config_log_operations:
 sync_gateway_config_pretty_json: 1
 
 # the bucket to create
-sync_gateway_config_bucket_name: vak_sync_gateway
+sync_gateway_config_bucket_name: sync_gateway
 
 # the admin user to use
 sync_gateway_config_user: hurley

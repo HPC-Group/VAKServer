@@ -20,3 +20,5 @@ node_app_public_port: 80
 # which ports should be forwarded
 node_app_ports:
   - '{{ node_app_public_port }}:{{ node_app_public_port }}'
+
+node_app_home: "{{ project_user_home }}/app"
