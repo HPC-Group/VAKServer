@@ -1,2 +1,5 @@
 .vagrant
 *.sublime-*
+
+node_modules
+bower_components
