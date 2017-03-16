@@ -1,6 +1,6 @@
 # VAK StateLogger Backend
 
-This repository is responsible for installing and configuring the VAK StateLogger Backend.
+This repository is responsible for installing and configuring the [VisAnalyticsKit (VAK)](https://github.com/HPC-Group/VisAnalyticsKit) StateLogger Backend.
 It provisions a multi tier environment, with different stages.
 
 In detail it installs [couchbase-server](http://developer.couchbase.com/documentation/server/4.0/introduction/intro.html) and the acompaning [sync_gateway](http://developer.couchbase.com/documentation/mobile/1.1.0/get-started/sync-gateway-overview/index.html) to be able to send logs from any mobile device to a remote location. An overview can be seen in the following figure:
